@@ -86,7 +86,7 @@
 
       $('body').on('click', '#itemSubmit', function(e) {
         var _ITEM = '<li><a href="#" value="@val">@val</a></li>';
-        var newItem = $('#itemInput').val();
+        var newItem = $('#itemInput').val().trim();
         var items = getItemsValue();
         if(!newItem) {
           alert('輸入正確的項目才能新增至菜單');
