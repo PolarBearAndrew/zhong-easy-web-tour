@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Week #1</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    img#ad {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          菜單
+        </a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a id="dMenuBtn" class="dropdown-toggle" type="button" data-toggle="dropdown">
+              選擇喜歡的食物...
+              <span class="caret" style="margin-left:12px;"></span>
+            </a>
+            <ul id="menu" class="dropdown-menu" aria-labelledby="dMenuBtn">
+              <li><a href="#" value="大麥克">大麥克</a></li>
+              <li><a href="#" value="4盎雙牛堡">4盎雙牛堡</a></li>
+              <li><a href="#" value="鱈魚堡">鱈魚堡</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-12">
+        <img id='ad' src="./image.jpg" alt="image.jpg" width="100%">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <input id="itemInput" type="text" class="form-control" placeholder="新增菜單項目">
+      </div>
+      <div class="col-md-3">
+        <button id="itemSubmit" type="button" class="form-control btn btn-success">新增至菜單</button>
+      </div>
+      <div class="col-md-3">
+        <input id="imgAniDuration" type="number" class="form-control" value="300" min="10" max="10000">
+      </div>
+      <div class="col-md-3">
+        <button id="startAnimation" type="button" class="form-control btn btn-primary">圖片消失/出現</button>
+      </div>
+    </div>
+    
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+
+      var _IS_PLAYING = false;
+
+      setImgContainerHeight();
+
+      function setImgContainerHeight() {
+        var imgHeight = $('#ad').parent().height();
+        $('#ad').parent().parent().css({ height: imgHeight });
+      };
+
+      $('#menu').on('click', function (e) {
+        var value = e.target.attributes.getNamedItem('value').value;
+        var icon = $('#dMenuBtn').children();
+        $('#dMenuBtn').text(value).append(icon);
+        event.preventDefault();
+      });
+
+      $('body').on('click', '#itemSubmit', function(e) {
+        var _ITEM = '<li><a href="#" value="@val">@val</a></li>';
+        var value = $('#itemInput').val();
+        if(!value) {
+          alert('輸入正確的項目才能新增至菜單');
+          return;
+        }
+        if(/<+|>+|\\+|\/+/.test(value)) {
+          alert('項目名稱禁止使用下列字元:\n \\/<>');
+          return;
+        }
+        $('#menu').append(_ITEM.replace(/@val/g, value));
+        $('#itemInput').val('');
+      });
+
+      $('body').on('click', '#startAnimation', function(e) {
+        if(_IS_PLAYING) return;
+        _IS_PLAYING = true;
+        var ms = parseInt($('#imgAniDuration').val());
+        $('#ad').fadeToggle(ms, 'swing', function(err) {
+          _IS_PLAYING = false;
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>
