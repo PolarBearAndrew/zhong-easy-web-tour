@@ -77,20 +77,8 @@
 
       setImgContainerHeight();
 
-      function setImgContainerHeight() {
-        var imgHeight = $('#ad').parent().height();
-        $('#ad').parent().parent().css({ height: imgHeight });
-      };
-
-      function getItemsValue() {
-        var items = $('#menu').children().children('a');
-        return Array.prototype.map.call(items, function(item) {
-          return $(item).attr('value');
-        })
-      }
-
       $('#menu').on('click', function (e) {
-        var value = e.target.attributes.getNamedItem('value').value; // TODO: change it to jquery type
+        var value = $(e.target).attr('value');
         var icon = $('#dMenuBtn').children();
         $('#dMenuBtn').text(value).append(icon);
         event.preventDefault();
@@ -100,7 +88,6 @@
         var _ITEM = '<li><a href="#" value="@val">@val</a></li>';
         var newItem = $('#itemInput').val();
         var items = getItemsValue();
-        console.log('items', items);
         if(!newItem) {
           alert('輸入正確的項目才能新增至菜單');
           return;
@@ -125,6 +112,18 @@
           _IS_PLAYING = false;
         });
       });
+
+      function setImgContainerHeight() {
+        var imgHeight = $('#ad').parent().height();
+        $('#ad').parent().parent().css({ height: imgHeight });
+      };
+
+      function getItemsValue() {
+        var items = $('#menu').children().children('a');
+        return Array.prototype.map.call(items, function(item) {
+          return $(item).attr('value');
+        })
+      }
 
     });
   </script>
