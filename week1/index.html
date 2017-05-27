@@ -82,8 +82,15 @@
         $('#ad').parent().parent().css({ height: imgHeight });
       };
 
+      function getItemsValue() {
+        var items = $('#menu').children().children('a');
+        return Array.prototype.map.call(items, function(item) {
+          return $(item).attr('value');
+        })
+      }
+
       $('#menu').on('click', function (e) {
-        var value = e.target.attributes.getNamedItem('value').value;
+        var value = e.target.attributes.getNamedItem('value').value; // TODO: change it to jquery type
         var icon = $('#dMenuBtn').children();
         $('#dMenuBtn').text(value).append(icon);
         event.preventDefault();
@@ -91,16 +98,22 @@
 
       $('body').on('click', '#itemSubmit', function(e) {
         var _ITEM = '<li><a href="#" value="@val">@val</a></li>';
-        var value = $('#itemInput').val();
-        if(!value) {
+        var newItem = $('#itemInput').val();
+        var items = getItemsValue();
+        console.log('items', items);
+        if(!newItem) {
           alert('輸入正確的項目才能新增至菜單');
           return;
         }
-        if(/<+|>+|\\+|\/+/.test(value)) {
+        if(/<+|>+|\\+|\/+/.test(newItem)) {
           alert('項目名稱禁止使用下列字元:\n \\/<>');
           return;
         }
-        $('#menu').append(_ITEM.replace(/@val/g, value));
+        if(items.indexOf(newItem) != -1) {
+          alert('該項目已經存在');
+          return;
+        }
+        $('#menu').append(_ITEM.replace(/@val/g, newItem));
         $('#itemInput').val('');
       });
 
