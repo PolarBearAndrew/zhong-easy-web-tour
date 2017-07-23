@@ -27,7 +27,7 @@ function handleFileChange(e) {
   }
 
   const handleNewImgur = (res) => {
-    that.images.push({
+    this.images.push({
       src: res.data.link
     });
   };
